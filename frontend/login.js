@@ -1,14 +1,14 @@
 const API_BASE_URL = "http://127.0.0.1:5000";
 
-document.getElementById("signup-form").addEventListener("submit", async (event) => {
+document.getElementById("login-form").addEventListener("submit", async (event) => {
   event.preventDefault();
 
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
-  const messageEl = document.getElementById("signup-message");
+  const messageEl = document.getElementById("login-message");
 
   try {
-    const response = await fetch(`${API_BASE_URL}/api/signup`, {
+    const response = await fetch(`${API_BASE_URL}/api/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password }),
@@ -18,12 +18,12 @@ document.getElementById("signup-form").addEventListener("submit", async (event) 
 
     if (data.success) {
       localStorage.setItem("user_id", data.user_id);
-      window.location.href = "profile.html";
+      window.location.href = "dashboard.html";
     } else {
-      messageEl.textContent = data.message || "Signup failed. Please try again.";
+      messageEl.textContent = data.message || "Login failed.";
     }
   } catch (error) {
-    console.error("Error during signup:", error);
-    messageEl.textContent = "An error occurred. Please try again.";
+    console.error("Error during login:", error);
+    messageEl.textContent = "An error occurred. Try again.";
   }
 });

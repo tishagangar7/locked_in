@@ -1,9 +1,12 @@
-// -------------------- Extract User ID --------------------
-const urlParams = new URLSearchParams(window.location.search);
-const userId = urlParams.get('user_id');
-document.getElementById('user_id').value = userId;
+const userId = new URLSearchParams(window.location.search).get("user_id") || localStorage.getItem("user_id");
 
-// -------------------- Add Class Input --------------------
+if (!userId) {
+  alert("User not found. Please log in again.");
+  window.location.href = "logIn.html";
+}
+
+document.getElementById("user_id").value = userId;
+
 function addClassInput() {
   const newInputDiv = document.createElement("div");
   newInputDiv.style.display = "flex";
@@ -31,32 +34,27 @@ function addClassInput() {
 
 document.getElementById("addClassBtn").addEventListener("click", addClassInput);
 
-// -------------------- Real-Time Validation --------------------
 function validateName() {
-  const nameField = document.getElementById('name');
-  nameField.style.borderColor = nameField.value.trim() ? '' : 'red';
+  const nameField = document.getElementById("name");
+  nameField.style.borderColor = nameField.value.trim() ? "" : "red";
 }
 
 function validateYear() {
-  const yearField = document.getElementById('year');
+  const yearField = document.getElementById("year");
   const year = parseInt(yearField.value);
-  yearField.style.borderColor = isNaN(year) || year < 1 || year > 5 ? 'red' : '';
+  yearField.style.borderColor = isNaN(year) || year < 1 || year > 5 ? "red" : "";
 }
 
-document.getElementById('name').addEventListener('input', validateName);
-document.getElementById('year').addEventListener('input', validateYear);
+document.getElementById("name").addEventListener("input", validateName);
+document.getElementById("year").addEventListener("input", validateYear);
 
-// -------------------- Handle Profile Submission --------------------
 async function submitProfile(e) {
   e.preventDefault();
 
-  const responseMsg = document.getElementById('responseMsg');
+  const responseMsg = document.getElementById("responseMsg");
   const classInputs = document.querySelectorAll(".class-input");
-  const classes = Array.from(classInputs)
-    .map(input => input.value.trim())
-    .filter(val => val.length > 0);
+  const classes = Array.from(classInputs).map(input => input.value.trim()).filter(val => val.length > 0);
 
-  // Check for duplicate classes
   const uniqueClasses = new Set(classes);
   if (uniqueClasses.size !== classes.length) {
     responseMsg.textContent = "Duplicate classes are not allowed. Please remove duplicates.";
@@ -64,15 +62,12 @@ async function submitProfile(e) {
     return;
   }
 
-  const name = document.getElementById('name').value.trim();
-  let major = document.getElementById('major').value.trim();
-  const year = document.getElementById('year').value.trim();
+  const name = document.getElementById("name").value.trim();
+  let major = document.getElementById("major").value.trim();
+  const year = document.getElementById("year").value.trim();
 
-  // Check if major is empty
   if (!major) {
-    const proceed = window.confirm(
-      "Major was empty. Defaulted to 'Undeclared'. Do you want to proceed or go back and change it?"
-    );
+    const proceed = window.confirm("Major was empty. Defaulted to 'Undeclared'. Do you want to proceed?");
     if (!proceed) {
       responseMsg.textContent = "⚠️ Please update your major.";
       responseMsg.style.color = "orange";
@@ -81,22 +76,22 @@ async function submitProfile(e) {
     major = "Undeclared";
   }
 
-  responseMsg.textContent = "⏳ Submitting your profile...";
-  responseMsg.style.color = "blue";
-
   const data = {
-    user_id: parseInt(document.getElementById('user_id').value),
+    user_id: parseInt(userId),
     name: name,
     major: major,
     year: parseInt(year),
     classes: classes,
-    study_style: document.getElementById('study_style').value
+    study_style: document.getElementById("study_style").value
   };
 
+  responseMsg.textContent = "⏳ Submitting your profile...";
+  responseMsg.style.color = "blue";
+
   try {
-    const res = await fetch('http://127.0.0.1:5000/api/profile', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+    const res = await fetch("http://127.0.0.1:5000/api/profile", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data)
     });
 
@@ -105,6 +100,10 @@ async function submitProfile(e) {
     if (result.success) {
       responseMsg.textContent = result.message;
       responseMsg.style.color = "green";
+      setTimeout(() => {
+        localStorage.removeItem("user_id");
+        window.location.href = "logIn.html";
+      }, 1000);
     } else {
       responseMsg.textContent = result.message;
       responseMsg.style.color = "red";
@@ -116,47 +115,4 @@ async function submitProfile(e) {
   }
 }
 
-document.getElementById('profileForm').addEventListener('submit', submitProfile);
-
-// -------------------- Handle Image Upload --------------------
-async function uploadImage(e) {
-  e.preventDefault();
-
-  const imageInput = document.getElementById('profileImage');
-  const imageResponseMsg = document.getElementById('imageResponseMsg');
-
-  if (!imageInput.files[0]) {
-    imageResponseMsg.textContent = "Please select an image to upload.";
-    imageResponseMsg.style.color = "red";
-    return;
-  }
-
-  const formData = new FormData();
-  formData.append('image', imageInput.files[0]);
-
-  imageResponseMsg.textContent = "⏳ Uploading image...";
-  imageResponseMsg.style.color = "blue";
-
-  try {
-    const res = await fetch(`http://127.0.0.1:5000/api/profile/upload-image/${userId}`, {
-      method: 'POST',
-      body: formData
-    });
-
-    const result = await res.json();
-
-    if (result.success) {
-      imageResponseMsg.textContent = result.message;
-      imageResponseMsg.style.color = "green";
-    } else {
-      imageResponseMsg.textContent = result.message;
-      imageResponseMsg.style.color = "red";
-    }
-  } catch (error) {
-    console.error("Error uploading image:", error);
-    imageResponseMsg.textContent = "An error occurred. Please try again.";
-    imageResponseMsg.style.color = "red";
-  }
-}
-
-document.getElementById('imageUploadForm').addEventListener('submit', uploadImage);
+document.getElementById("profileForm").addEventListener("submit", submitProfile);

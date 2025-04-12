@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Preferences</title>
-  <link rel="stylesheet" href="prefereneces.css">
+  <link rel="stylesheet" href="preferences.css">
 </head>
 <body>
   <div class="container">
@@ -13,30 +13,12 @@
     <!-- Choose Medium -->
     <section id="choose-medium" class="card">
       <h2>Choose Medium</h2>
-      <select id="medium-select">
+      <select id="medium-select" onchange="submitMedium()">
         <option value="">Select Medium</option>
         <option value="remote">Remote</option>
         <option value="in-person">In-Person</option>
       </select>
-      <button onclick="submitMedium()">Submit Medium</button>
-      <p id="medium-message"></p>
-    </section>
-
-    <!-- Choose Class -->
-    <section id="choose-class" class="card">
-      <h2>Choose Class</h2>
-      <select id="class-select">
-        <option value="">Loading classes...</option>
-      </select>
-      <p id="class-message"></p>
-    </section>
-
-    <!-- Set Schedule -->
-    <section id="set-schedule" class="card">
-      <h2>Set Schedule</h2>
-      <button onclick="redirectToSchedule()">Click here to set your schedule preferences</button>
-      <div id="schedule-display"></div>
-      <p id="schedule-message"></p>
+      <p id="medium-message" class="message"></p>
     </section>
 
     <!-- Upload and Process Syllabus -->
@@ -45,15 +27,25 @@
       <input type="file" id="syllabus-file">
       <textarea id="syllabus-text" placeholder="Or enter syllabus text here..."></textarea>
       <button onclick="uploadSyllabus()">Upload Syllabus</button>
-      <p id="syllabus-message"></p>
+      <p id="syllabus-message" class="message"></p>
     </section>
 
     <!-- Select Topics -->
     <section id="select-topics" class="card">
       <h2>Select Topics</h2>
-      <div id="topics-list"></div>
+      <div id="topics-list">
+        <p>No topics available. Upload a syllabus to get started.</p>
+      </div>
       <button onclick="submitTopics()">Submit Topics</button>
-      <p id="topics-message"></p>
+      <p id="topics-message" class="message"></p>
+    </section>
+
+    <!-- Set Schedule -->
+    <section id="set-schedule" class="card">
+      <h2>Set Schedule</h2>
+      <button onclick="redirectToSchedule()">Click here to set your schedule preferences</button>
+      <div id="schedule-display"></div>
+      <p id="schedule-message" class="message"></p>
     </section>
   </div>
 

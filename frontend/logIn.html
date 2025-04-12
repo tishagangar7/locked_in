@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>LockedIn - Sign Up</title>
+  <title>LockedIn - Log In</title>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="signUp.css" />
+  <link rel="stylesheet" href="logIn.css" />
 </head>
 <body>
   <header>
     <img id="logo" src="logo.png" alt="LockedIn Logo" />
   </header>
 
-  <form id="signup-form" style="border:none">
+  <form id="login-form" style="border:none">
     <div class="container">
-      <header1><h1>Sign Up</h1></header1>
+      <header1><h1>Log In</h1></header1>
       <hr>
 
       <label for="email"><b>Email</b></label>
@@ -26,14 +26,16 @@
         <input type="checkbox" checked="checked" name="remember" style="margin-bottom:15px"> Remember me
       </label>
 
-      <p id="signup-message" style="color:red; text-align:center;"></p>
+      <p>Don't have an account? <a href="signUp.html" style="color:dodgerblue">Register now!</a></p>
+
+      <p id="login-message" style="color:red; text-align:center;"></p>
 
       <div class="clearfix">
-        <button type="submit" class="signupbtn">Sign Up</button>
+        <button type="submit" class="signupbtn">Log In</button>
       </div>
     </div>
   </form>
 
-  <script src="signup.js"></script>
+  <script src="login.js"></script>
 </body>
 </html>

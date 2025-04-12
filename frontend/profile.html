@@ -41,7 +41,8 @@
     <hr>
 
     <h2>Upload Profile Image</h2>
-    <form id="imageUploadForm">
+    <form id="imageUploadForm" enctype="multipart/form-data">
+
       <input type="file" id="profileImage" accept="image/*">
       <p id="imageResponseMsg"></p>
       <button type="submit">Upload Image</button>
