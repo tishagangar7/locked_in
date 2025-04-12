@@ -1,8 +1,11 @@
-# app.py
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+from werkzeug.utils import secure_filename
 from werkzeug.security import generate_password_hash, check_password_hash
 from models import db, User
+from routes.profile_routes import register_profile_routes
+from routes.preferences.preferences_main import preferences_bp
+import os
 
 app = Flask(__name__)
 CORS(app)
@@ -10,13 +13,15 @@ CORS(app)
 # DB Config
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['UPLOAD_FOLDER'] = './uploads'  # Folder to store uploaded files
+os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)  # Ensure the folder exists
 db.init_app(app)
 
 # Create DB
 with app.app_context():
     db.create_all()
-    
-#SIGNUP ROUTE
+
+# -------------------- SIGNUP --------------------
 @app.route('/api/signup', methods=['POST'])
 def signup():
     data = request.get_json()
@@ -33,7 +38,7 @@ def signup():
 
     return jsonify({"success": True, "user_id": new_user.id})
 
-# LOGIN ROUTE
+# -------------------- LOGIN --------------------
 @app.route('/api/login', methods=['POST'])
 def login():
     data = request.get_json()
@@ -46,7 +51,15 @@ def login():
     
     return jsonify({"success": False, "message": "Invalid credentials"}), 401
 
+# -------------------- PROFILE ROUTES --------------------
+register_profile_routes(app)
+
+# Register the preferences blueprint
+app.register_blueprint(preferences_bp, url_prefix='/preferences')
+
 if __name__ == '__main__':
     app.run(debug=True)
 
-
+# -------------------- RUN APP --------------------
+if __name__ == '__main__':
+    app.run(debug=True)
