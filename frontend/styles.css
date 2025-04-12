@@ -48,7 +48,6 @@ img {
     height: 80%;
     display:flex;
     flex-direction: column;
-
     
 }
 
@@ -81,7 +80,10 @@ img {
     padding: 20px;
     height: 100%;
     box-sizing: border-box;
-    top, left, right, bottom: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     background-color: #f0f0f0db;
     border-radius: 5px;
     
@@ -94,8 +96,10 @@ img {
     margin-top: 20px;
     margin-left: 20px;
     align-items: left;
-    background-color: #f0f0f0db;
+    background-color: #f0f0f0d1;
+    border-radius: 20px;
     padding: 10px;
+    font-size: 90%;
 }
 
 #tilepic{
@@ -120,23 +124,41 @@ img {
     
 }
 
+.reject {
+    border:none;
+    background-color: #ecebe900;
+}
 
-#reject{
+.reject img{
     border-radius: 100%;
     width: 75px;
     height: 75px;  
     border: none;
     
-    background-color: #ecebe9;
+    background-color: #ecebe900;
 }
 
-#accept{
+.reject img:hover{
+    transform: rotate(-20deg);
+    transition: transform 1s ease;
+}
+
+.accept {
+    border:none;
+    background-color: #ecebe900;
+}
+.accept img{
     border-radius: 100%;
     width: 75px;
     height: 75px;  
     border: none;
-    background-color: #ecebe9;
+    background-color: #ecebe900;
 }
+
+.accept img:hover{
+    transform: rotate(20deg);
+    transition: transform 1s ease;
+}   
 
 #profile{
     border: 1px solid darkgray;
