@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    
+    <title>LockedIn</title>
+    <meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- link the webpage's stylesheet -->
+    <link rel="stylesheet" href="signUp.css"  />
+
+    <header>
+
+      <img id = "logo" src = "data:image/png;base64,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">
+    </header>
+
+
+    <form action="action_page.php" style="border:none">
+        <div class="container">
+
+
+          
+          
+
+        <header1>
+          <h1>Sign Up</h1>
+
+        </header1>
+          <!-- <p>Please fill in this form to create an account.</p> -->
+          <hr>
+      
+          <label for="email"><b>Email</b></label>
+          <input type="text" placeholder="Enter Email" name="email" required>
+      
+          <label for="psw"><b>Password</b></label>
+          <input type="password" placeholder="Enter Password" name="psw" required>
+      
+          <!-- <label for="psw-repeat"><b>Repeat Password</b></label>
+          <input type="password" placeholder="Repeat Password" name="psw-repeat" required>
+       -->
+          <label>
+            <input type="checkbox" checked="checked" name="remember" style="margin-bottom:15px"> Remember me
+          </label>
+
+      
+          <!-- <p>By creating an account you agree to    our <a href="#" style="color:dodgerblue">Terms & Privacy</a>.</p> -->
+      
+          <div class="clearfix">
+            <!-- <button type="button" class="cancelbtn">Cancel</button> -->
+            <button type="submit" class="signupbtn">Sign Up</button>
+          </div>
+        </div>
+      </form>
+  </head>
+</html>
